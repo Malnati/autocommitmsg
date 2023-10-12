@@ -1,10 +1,16 @@
 #!/bin/bash
 
-# Check for required utilities
+# Check for required utilities and install if not found
 for util in openssl curl jq; do
     if ! command -v $util &> /dev/null; then
-        echo "Error: $util is not installed. Exiting."
-        exit 1
+        echo "Warning: $util is not installed."
+        echo "Attempting to install $util..."
+        sudo apt-get update
+        sudo apt-get install -y $util
+        if ! command -v $util &> /dev/null; then
+            echo "Error: Failed to install $util. Exiting."
+            exit 1
+        fi
     fi
 done
 
@@ -27,9 +33,6 @@ echo -n "$API_KEY" | openssl enc -aes-256-cbc -pbkdf2 -out api_key.enc -pass pas
 
 # Add encrypted file to .gitignore
 echo "*.enc" >> .gitignore
-
-# Create hooks directory if it doesn't exist
-mkdir -p .git/hooks
 
 # Copy the auto_commit_msg.sh script to hooks directory and rename it
 cp path/to/auto_commit_msg.sh .git/hooks/prepare-commit-msg
