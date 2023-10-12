@@ -13,6 +13,10 @@ This repository contains a Bash script designed to analyze the content of a Git 
 - curl
 - jq
 
+## Installation and Setup
+
+For instructions on how to generate the required API key and set up this script as a Git hook, please refer to the [INSTALL.md](INSTALL.md) file.
+
 ## Usage
 ```bash
 ./auto_commit_msg.sh [COMMIT_MSG_FILE]
