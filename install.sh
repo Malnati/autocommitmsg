@@ -34,7 +34,7 @@ echo -n "$API_KEY" | openssl enc -aes-256-cbc -pbkdf2 -out api_key.enc -pass pas
 echo "*.enc" >> .gitignore
 
 # Copy the auto_commit_msg.sh script to hooks directory and rename it
-cp path/to/auto_commit_msg.sh .git/hooks/prepare-commit-msg
+cp ./auto_commit_msg .git/hooks/prepare-commit-msg
 
 # Make the script executable
 chmod +x .git/hooks/prepare-commit-msg
