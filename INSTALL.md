@@ -2,7 +2,8 @@
 
 ## Table of Contents
 1. [Generating API Key](#generating-api-key)
-2. [Setting Up as Git Hook](#setting-up-as-git-hook)
+2. [Encrypting API Key](#encrypting-api-key)
+3. [Setting Up as Git Hook](#setting-up-as-git-hook)
 
 ---
 
@@ -13,33 +14,28 @@
 3. **Set Permissions**: Choose the permissions you need. For this script, a basic permission should suffice.
 4. **Generate and Copy**: Click on "Generate" and copy the generated API key.
 
-### Applying API Key to Source Code
-Open the `auto_commit_msg.sh` script and locate the line where `API_KEY` is defined. Replace the placeholder `***` with your actual API key.
+---
 
-```bash
-API_KEY="Your-Actual-API-Key-Here"
-```
-## Generating API Key and Encryption
+## Encrypting API Key
 
-### Generating API Key
-Follow the steps mentioned in the [previous section](#generating-api-key) to generate the API key.
-
-### Encrypting the API Key
-After generating the API key, encrypt it using OpenSSL and save it to a file named `api_key.enc`:
+### Encrypt the API Key
+After generating the API key, encrypt it using OpenSSL with the following command:
 
 ```bash
 echo -n "Your-Actual-API-Key-Here" | openssl enc -aes-256-cbc -pbkdf2 -out api_key.enc
 ```
 
-You'll be prompted to enter a passphrase. Remember this passphrase as you'll need it to decrypt the key later.
+You'll be prompted to enter a passphrase. Remember this passphrase, as you'll need it to decrypt the key later.
 
-### Adding to `.gitignore`
-To ensure that the encrypted API key file is not committed to the repository, add the following line to your `.gitignore` file:
+### Update `.gitignore`
+To ensure the encrypted API key file is not committed to the repository, add the following line to your `.gitignore`:
 
 ```plaintext
 # encrypted file
 *.enc
 ```
+
+For more details on `.gitignore`, you can refer to the [official documentation](https://git-scm.com/docs/gitignore).
 
 ---
 
@@ -62,4 +58,13 @@ To ensure that the encrypted API key file is not committed to the repository, ad
     chmod +x .git/hooks/prepare-commit-msg
     ```
 
-5. **Test the Hook**: Stage some changes and try committing them. The hook should automatically generate a commit message.
+5. **Update the Script**: Open the `prepare-commit-msg` script and replace the `PASSPHRASE` placeholder with the passphrase you used to encrypt the API key.
+    ```bash
+    PASSPHRASE="YOUR-PHRASE-HERE"
+    ```
+
+6. **Test the Hook**: Stage some changes and try committing them. The hook should automatically generate a commit message.
+
+For more details on Git hooks, you can refer to the [official documentation](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks).
+
+---
