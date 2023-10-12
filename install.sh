@@ -24,9 +24,8 @@ fi
 echo "Please enter your OpenAI API key:"
 read -s API_KEY
 
-# Prompt for passphrase to encrypt the API key
-echo "Please enter a passphrase for encrypting the API key:"
-read -s PASSPHRASE
+# Generate a random passphrase for encrypting the API key
+PASSPHRASE=$(openssl rand -base64 32)
 
 # Encrypt the API key
 echo -n "$API_KEY" | openssl enc -aes-256-cbc -pbkdf2 -out api_key.enc -pass pass:$PASSPHRASE
