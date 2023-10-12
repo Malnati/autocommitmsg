@@ -19,6 +19,27 @@ Open the `auto_commit_msg.sh` script and locate the line where `API_KEY` is defi
 ```bash
 API_KEY="Your-Actual-API-Key-Here"
 ```
+## Generating API Key and Encryption
+
+### Generating API Key
+Follow the steps mentioned in the [previous section](#generating-api-key) to generate the API key.
+
+### Encrypting the API Key
+After generating the API key, encrypt it using OpenSSL and save it to a file named `api_key.enc`:
+
+```bash
+echo -n "Your-Actual-API-Key-Here" | openssl enc -aes-256-cbc -pbkdf2 -out api_key.enc
+```
+
+You'll be prompted to enter a passphrase. Remember this passphrase as you'll need it to decrypt the key later.
+
+### Adding to `.gitignore`
+To ensure that the encrypted API key file is not committed to the repository, add the following line to your `.gitignore` file:
+
+```plaintext
+# encrypted file
+*.enc
+```
 
 ---
 
