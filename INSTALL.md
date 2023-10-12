@@ -54,15 +54,15 @@ For more details on `.gitignore`, you can refer to the [official documentation](
 ## Setting Up as Git Hook
 
 1. **Navigate to Your Repository**: Open your terminal and navigate to your local Git repository.
-2. **Copy the Script**: Move the `auto_commit_msg.sh` script to the `hooks` directory and rename it to `prepare-commit-msg`.
+2. **Copy the Script**: Move the `auto_commit_msg` script to the `hooks` directory and rename it to `commit-msg`.
     ```bash
-    mv ./commit-msg .git/hooks/commit-msg
+    cp ./auto-commit-msg/usr/local/bin/auto-commit-msg .git/hooks/commit-msg
     ```
 3. **Make it Executable**: Change the script permissions to make it executable.
     ```bash
     chmod +x .git/hooks/commit-msg
     ```
-4. **Update the Script**: Open the `prepare-commit-msg` script and replace the `PASSPHRASE` placeholder with the passphrase you used to encrypt the API key.
+4. **Update the Script**: Open the `commit-msg` script and replace the `PASSPHRASE` placeholder with the passphrase you used to encrypt the API key.
     ```bash
     PASSPHRASE="YOUR-PHRASE-HERE"
     ```

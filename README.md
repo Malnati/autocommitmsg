@@ -19,7 +19,7 @@ For instructions on how to generate the required API key and set up this script 
 
 ## Usage
 ```bash
-./auto_commit_msg.sh [COMMIT_MSG_FILE]
+./auto-commit-msg/usr/local/bin/auto-commit-msg [COMMIT_MSG_FILE]
 ```
 
 ## Author

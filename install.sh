@@ -1,13 +1,20 @@
 #!/bin/bash
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-10
+# Description: To auto-commit-msg into a .git project.
+# Dependencies: curl, jq
 
 # Check for required utilities and install if not found
 for util in openssl curl jq; do
     if ! command -v $util &> /dev/null; then
         echo "Warning: $util is not installed."
         echo "Attempting to install $util..."
-        sudo apt-get update
-        sudo apt-get install -y $util
-        if ! command -v $util &> /dev/null; then
+        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            sudo apt-get update
+            sudo apt-get install -y $util
+        elif [[ "$OSTYPE" == "darwin"* ]]; then
+            brew install $util
+        else
             echo "Error: Failed to install $util. Exiting."
             exit 1
         fi
@@ -24,8 +31,15 @@ fi
 echo "Please enter your OpenAI API key:"
 read -s API_KEY
 
-# Generate a random passphrase for encrypting the API key
-PASSPHRASE=$(openssl rand -base64 32)
+# Generate a random passphrase using SHA-256
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    PASSPHRASE=$(openssl rand -hex 16 | sha256sum | awk '{print $1}')
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    PASSPHRASE=$(openssl rand -hex 16 | shasum -a 256 | awk '{print $1}')
+else
+    echo "Error: Unsupported operating system. Exiting."
+    exit 1
+fi
 
 # Encrypt the API key
 echo -n "$API_KEY" | openssl enc -aes-256-cbc -pbkdf2 -out api_key.enc -pass pass:$PASSPHRASE
@@ -34,12 +48,16 @@ echo -n "$API_KEY" | openssl enc -aes-256-cbc -pbkdf2 -out api_key.enc -pass pas
 echo "*.enc" >> .gitignore
 
 # Copy the auto_commit_msg.sh script to hooks directory and rename it
-cp ./commit-msg .git/hooks/commit-msg
+cp ./auto-commit-msg/usr/local/bin/auto-commit-msg .git/hooks/commit-msg
 
 # Make the script executable
-chmod +x .git/hooks/prepare-commit-msg
+chmod +x .git/hooks/commit-msg
 
-# Update the prepare-commit-msg script with the passphrase
-sed -i "s/YOUR-PHRASE-HERE/$PASSPHRASE/" .git/hooks/prepare-commit-msg
+# Update the commit-msg script with the passphrase
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s|YOUR-PHRASE-HERE|$PASSPHRASE|" .git/hooks/commit-msg
+else
+    sed -i "s|YOUR-PHRASE-HERE|$PASSPHRASE|" .git/hooks/commit-msg
+fi
 
 echo "Installation complete."
