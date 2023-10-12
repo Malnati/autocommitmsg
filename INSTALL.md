@@ -1,9 +1,21 @@
 # Installation Guide for Auto Commit Msg
 
 ## Table of Contents
-1. [Generating API Key](#generating-api-key)
-2. [Encrypting API Key](#encrypting-api-key)
-3. [Setting Up as Git Hook](#setting-up-as-git-hook)
+1. [Prerequisites](#prerequisites)
+2. [Generating API Key](#generating-api-key)
+3. [Encrypting API Key](#encrypting-api-key)
+4. [Setting Up as Git Hook](#setting-up-as-git-hook)
+5. [Automated Installation](#automated-installation)
+
+---
+
+## Prerequisites
+
+Ensure the following utilities are installed:
+
+- [OpenSSL](https://www.openssl.org/source/)
+- [curl](https://curl.se/download.html)
+- [jq](https://stedolan.github.io/jq/download/)
 
 ---
 
@@ -42,29 +54,29 @@ For more details on `.gitignore`, you can refer to the [official documentation](
 ## Setting Up as Git Hook
 
 1. **Navigate to Your Repository**: Open your terminal and navigate to your local Git repository.
-
-2. **Create a Hooks Directory**: If it doesn't already exist, create a `hooks` directory inside the `.git` directory of your repository.
-    ```bash
-    mkdir -p .git/hooks
-    ```
-
-3. **Move the Script**: Move the `auto_commit_msg.sh` script to the `hooks` directory and rename it to `prepare-commit-msg`.
+2. **Copy the Script**: Move the `auto_commit_msg.sh` script to the `hooks` directory and rename it to `prepare-commit-msg`.
     ```bash
     mv path/to/auto_commit_msg.sh .git/hooks/prepare-commit-msg
     ```
-
-4. **Make it Executable**: Change the script permissions to make it executable.
+3. **Make it Executable**: Change the script permissions to make it executable.
     ```bash
     chmod +x .git/hooks/prepare-commit-msg
     ```
-
-5. **Update the Script**: Open the `prepare-commit-msg` script and replace the `PASSPHRASE` placeholder with the passphrase you used to encrypt the API key.
+4. **Update the Script**: Open the `prepare-commit-msg` script and replace the `PASSPHRASE` placeholder with the passphrase you used to encrypt the API key.
     ```bash
     PASSPHRASE="YOUR-PHRASE-HERE"
     ```
 
-6. **Test the Hook**: Stage some changes and try committing them. The hook should automatically generate a commit message.
-
 For more details on Git hooks, you can refer to the [official documentation](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks).
 
 ---
+
+## Automated Installation
+
+For an automated installation process, you can use the [`installer.sh`](link-to-installer.sh) script. This script will handle the API key encryption and Git hook setup for you.
+
+To use this installer:
+
+1. Download the `installer.sh` script.
+2. Make the script executable with `chmod +x installer.sh`.
+3. Run the script with `./installer.sh`.
