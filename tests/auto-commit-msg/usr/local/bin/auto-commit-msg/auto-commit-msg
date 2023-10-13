@@ -1,0 +1,207 @@
+#!/bin/bash
+# Script: auto-commit-msg/usr/local/bin/auto-commit-msg
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-10
+# Description: Configures the auto-commit-msg utility to analyze commit content and suggest a 
+#               semantic versioning message. Now supports user and project-level preferences.
+# Dependencies: curl, jq, openssl, sed
+
+# Function to display help
+# This function shows the available options and their descriptions when the script is run with the -h flag.
+show_help() {
+    echo "Usage: auto-commit-msg [OPTION]"
+    echo "  -i [path]    Install the commit-msg hook."
+    echo "  -u [path]    Update the commit-msg hook."
+    echo "  -c           Configure OpenAI API Key."
+    echo "  -h           Display this help and exit."
+    echo "  --u          User level configuration."
+    echo "  --p          Project level configuration."
+}
+
+# Function to configure OpenAI API Key
+# This function prompts the user for the OpenAI API key and validates it.
+configure_api_key() {
+    # Prompt for OpenAI API key
+    echo "Please enter your OpenAI API key:"
+    read -s API_KEY
+
+    # Retry mechanism for API Key validation
+    retry_count=0
+    max_retries=3
+
+    while [ $retry_count -lt $max_retries ]; do
+        API_TEST=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $API_KEY" "https://api.openai.com/v1/engines")
+        if [ "$API_TEST" -eq 200 ]; then
+            break
+        else
+            echo "Invalid API Key. You have $((max_retries - retry_count)) attempts left."
+            read -s -p "Please re-enter your OpenAI API key: " API_KEY
+            ((retry_count++))
+        fi
+    done
+
+    if [ $retry_count -eq $max_retries ]; then
+        echo "Error: Max retries reached for API Key validation."
+        echo "Reason: Invalid OpenAI API Key entered multiple times."
+        echo "Developer Fix: If you believe this is a bug, please contribute by opening an issue on the GitHub repository."
+        echo "Support: If you have a support contract, please contact support with error code 1."
+        echo "Community Help: For community assistance, post your issue on Stack Overflow with the tag 'auto-commit-msg'."
+        exit 1
+    fi
+
+    # Generate a random passphrase using SHA-256
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        PASSPHRASE=$(openssl rand -hex 16 | sha256sum | awk '{print $1}')
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        PASSPHRASE=$(openssl rand -hex 16 | shasum -a 256 | awk '{print $1}')
+    else
+        echo "Error: Unsupported operating system."
+        echo "Reason: The script is not compatible with your OS."
+        echo "Developer Fix: To contribute, add support for the missing OS and submit a pull request."
+        echo "Support: If you have a support contract, please contact support with error code 2."
+        echo "Community Help: For community assistance, post your issue on Stack Overflow with the tag 'auto-commit-msg'."
+        exit 2
+    fi
+
+    # Encrypt the API key
+    echo -n "$API_KEY" | openssl enc -aes-256-cbc -pbkdf2 -out ~/.autocommitmsg.enc -pass pass:$PASSPHRASE
+
+    # Update the commit-msg script with the passphrase
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s|YOUR-PHRASE-HERE|$PASSPHRASE|" ~/.autocommitmsgrc
+    else
+        sed -i "s|YOUR-PHRASE-HERE|$PASSPHRASE|" ~/.autocommitmsgrc
+    fi
+
+    # Prompt for preferred language
+    echo "Please enter your prefered language to address questions agains OpenAI API."
+    echo 'The default language is English or you can define any other language name' 
+    echo ' in English, for example Portuguese, Spanish, French, Dutch, etc. '
+    echo ' It will affect the response of the OpenAPI.'
+    read -s PREF_LANGUAGE
+
+    if ! grep -q "PREF_LANGUAGE" ~/.autocommitmsgrc; then
+        echo 'PREF_LANGUAGE=English  # or any other language name in English, example Portuguese, Spanish, French, Dutch' >> ~/.autocommitmsgrc
+    fi
+}
+
+# Function to install or update commit-msg
+# This function installs or updates the commit-msg hook in the specified Git project directory.
+install_or_update_hook() {
+
+    # Check if ~/.autocommitmsgrc exists and has YOUR-PHRASE-HERE
+    if [ -f ~/.autocommitmsgrc ]; then
+        if ! grep -q "PASSPHRASE" ~/.autocommitmsgrc; then
+            echo 'PASSPHRASE=YOUR-PHRASE-HERE' >> ~/.autocommitmsgrc
+        fi
+        if ! grep -q "PREF_LANGUAGE" ~/.autocommitmsgrc; then
+            echo 'PREF_LANGUAGE=English  # or any other language name in English, example Portuguese, Spanish, French, Dutch' >> ~/.autocommitmsgrc
+        fi
+    else
+        echo 'PASSPHRASE=YOUR-PHRASE-HERE' >> ~/.autocommitmsgrc
+        echo 'PREF_LANGUAGE=English  # or any other language name in English, example Portuguese, Spanish, French, Dutch' >> ~/.autocommitmsgrc
+    fi
+
+    if [ -f ~/.autocommitmsg.enc ]; then
+        echo "~/.autocommitmsg.enc found!"
+    else
+        configure_api_key
+    fi
+
+    mkdir -p /etc/autocommitmsg
+    cp auto-commit-msg/usr/local/bin/commit-msg /etc/autocommitmsg
+    chmod +x /etc/autocommitmsg/commit-msg
+    echo "/etc/autocommitmsg updated!"
+
+    local action=$1
+    local path=$2
+    if [ ! -d "$path/.git" ]; then
+        echo "Error: No .git directory found in the specified path."
+        echo "Reason: The path provided does not contain a Git repository."
+        echo "User Task: Make sure to run the script inside a Git repository."
+        exit 3
+    fi
+    cp /etc/autocommitmsg/commit-msg $path/.git/hooks/
+    chmod +x $path/.git/hooks/commit-msg
+    echo "$action commit-msg hook in $path."
+}
+
+if [ "$EUID" -ne 0 ]; then
+    echo "Error: Please run the script as root."
+    echo "Reason: Elevated permissions are required for certain operations."
+    echo "User Task: Run the script with sudo or as a root user."
+    exit 4
+fi
+
+wget -q --spider http://google.com
+if [ $? -ne 0 ]; then
+    echo "Error: No internet connection."
+    echo "Reason: The script requires internet access to validate the API key."
+    echo "User Task: Please check your internet connection and try again."
+    exit 5
+fi
+
+# Check for required utilities and install if not found
+for util in openssl curl jq; do
+    if ! command -v $util &> /dev/null; then
+        echo "Warning: $util is not installed."
+        echo "Attempting to install $util..."
+        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            sudo apt-get update
+            sudo apt-get install -y $util
+        elif [[ "$OSTYPE" == "darwin"* ]]; then
+            brew install $util
+        else
+            echo "Error: Failed to install required utilities."
+            echo "Reason: The script could not install the required utilities like curl, jq, or openssl."
+            echo "Developer Fix: If you believe this is a bug, please contribute by opening an issue on the GitHub repository."
+            echo "Support: If you have a support contract, please contact support with error code 6."
+            echo "Community Help: For community assistance, post your issue on Stack Overflow with the tag 'auto-commit-msg'."
+            exit 6
+        fi
+    fi
+done
+
+# Main function to handle options
+level="user"  # Default to user level
+while getopts ":i:u:ch-:" opt; do
+    case $opt in
+        i)
+            install_or_update_hook "Installed" "$OPTARG" "$level"
+            ;;
+        u)
+            install_or_update_hook "Updated" "$OPTARG" "$level"
+            ;;
+        c)
+            configure_api_key "$level"
+            ;;
+        h)
+            show_help
+            ;;
+        -)
+            case $OPTARG in
+                u)
+                    level="user"
+                    ;;
+                p)
+                    level="project"
+                    ;;
+            esac
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 7
+            ;;
+        :)
+            echo "Error: Option requires an argument."
+            echo "Reason: An option was passed without the required argument."
+            echo "User Task: Please provide the necessary argument for the option."
+            exit 8
+            ;;
+    esac
+done
+
+# If no options are passed, show help
+if [ $OPTIND -eq 1 ]; then
+    show_help
+fi
