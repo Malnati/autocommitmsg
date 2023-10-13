@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Test Script for commit-msg
+# Author: Ricardo Malnati
+# Creation Date: 2023-10-13
+# Description: This script tests the commit-msg hook by creating a temporary Git repository,
+#              making some changes, and then committing them.
+
+# Create a temporary directory and initialize a Git repository
+temp_dir=$(mktemp -d -t commit-msg-test-XXXX)
+git init "$temp_dir"
+
+# Copy the commit-msg hook into the temporary Git repository
+cp /path/to/your/commit-msg "$temp_dir/.git/hooks/"
+chmod +x "$temp_dir/.git/hooks/commit-msg"
+
+# Change to the temporary directory
+cd "$temp_dir"
+
+# Create a test file and add some content
+echo "This is a test file." > test.txt
+
+# Add and commit the changes
+git add test.txt
+COMMIT_MSG=$(echo "Initial commit" | tee /dev/tty)
+echo "$COMMIT_MSG" > .git/COMMIT_EDITMSG
+git commit -F .git/COMMIT_EDITMSG
+
+# Run the commit-msg hook manually (this should be done automatically during commit in real use)
+sh .git/hooks/commit-msg .git/COMMIT_EDITMSG
+
+# Display the updated commit message
+echo "Updated Commit Message:"
+cat .git/COMMIT_EDITMSG
+
+# Cleanup
+rm -rf "$temp_dir"
