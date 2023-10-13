@@ -2,97 +2,76 @@
 # Script: auto-commit-msg/etc/commit-msg
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-10
-# Description: To analyze the commit content and suggest a semantic versioning message.
-# Dependencies: curl, jq
+# Description: Analyzes the commit content and suggests a semantic versioning message. Supports user 
+#               and project-level preferences for language and content.
+# Dependencies: curl, jq, openssl
 
+# Source the variables
+if [ -f ~/.autocommitmsgrc ]; then
+    source ~/.autocommitmsgrc
+else
+    echo "Error: Configuration file ~/.autocommitmsgrc not found."
+    echo "Reason: The script requires this file for sourcing variables."
+    echo "User Task: Make sure ~/.autocommitmsgrc exists and is accessible."
+    exit 9
+fi
+
+# Check for required files and variables
 if [ ! -f ~/.autocommitmsg.enc ]; then
-    echo "~/.autocommitmsg.enc not found!"
-    exit 1
+    echo "Error: Encrypted API key file ~/.autocommitmsg.enc not found."
+    echo "Reason: The script requires this file for API key decryption."
+    echo "User Task: Run the configure_api_key function from the auto-commit-msg script to generate this file."
+    exit 10
 fi
 
-# Check if ~/.autocommitmsgrc exists and has YOUR-PHRASE-HERE
-if [ ! -f ~/.autocommitmsgrc ]; then
-    echo '~/.autocommitmsgrc not found'
-    exit 1
+# Check for required files and variables
+if [ ! -f ~/.autocommitmsg.enc ] || [ -z "$PASSPHRASE" ] || [ -z "$PREF_LANGUAGE" ] || [ -z "$PREF_SYSTEM_CONTENT" ] || [ -z "$PREF_USER_CONTENT" ]; then
+    echo "Error: Required variables not set in ~/.autocommitmsgrc."
+    echo "Reason: Missing PASSPHRASE, PREF_LANGUAGE, PREF_SYSTEM_CONTENT, or PREF_USER_CONTENT."
+    echo "User Task: Update ~/.autocommitmsgrc with the missing variables."
+    exit 11
 fi
 
-if ! grep -q "PASSPHRASE" ~/.autocommitmsgrc; then
-    echo 'PASSPHRASE not found at ~/.autocommitmsgrc!' 
-    echo 'Use: `auto-commit-msg -c` to configure it!'
-    exit 1
-fi
-
-if ! grep -q "LANGUAGE" ~/.autocommitmsgrc; then
-    echo 'LANGUAGE not found at ~/.autocommitmsgrc'
-    exit 1
-fi
-
-# Set API Key
-source ~/.autocommitmsgrc
-
+# Decrypt API Key
 API_KEY=$(echo $PASSPHRASE | openssl enc -aes-256-cbc -d -pbkdf2 -in ~/.autocommitmsg.enc -pass stdin)
-
-if [ -z "$API_KEY" ]; then
-    echo "Error: API Key not set. Exiting."
-    exit 1
-fi
-
-if [ -z "$PREFERED_LANGUAGE" ]; then
-    echo "Error: PREFERED_LANGUAGE not set. Exiting."
-    exit 1
-fi
-
-# Verify if required utilities are installed
-for util in curl jq; do
-    if ! command -v $util &> /dev/null; then
-        echo "Error: $util is not installed. Exiting." 
-        exit 1
-    fi
-done
-
-# File where the commit message is stored
-COMMIT_MSG_FILE="$1"
-if [ -z "$COMMIT_MSG_FILE" ]; then
-    echo "Error: Commit message file not provided."
-    exit 1
-fi
-
-# Capture the original commit message
-ORIGINAL_COMMIT_MSG=$(cat "$COMMIT_MSG_FILE" 2>/dev/null)
-if [ $? -ne 0 ]; then 
-    echo "Error: Could not read commit message file at: $COMMIT_MSG_FILE"
-    exit 1
-fi
-
-# Verify API Key by making a simple API call
-API_TEST=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $API_KEY" "https://api.openai.com/v1/engines")
-if [ "$API_TEST" -ne 200 ]; then
-  echo "Error: Invalid API Key. Exiting."
-  exit 1
-fi 
-
-# Capture the changes staged for commit
-DIFF_OUTPUT=$(git diff --cached --diff-filter=CMRTUXB)
-
-DEFAULT_MODEL="gpt-3.5-turbo-16k"
 
 # Prepare the JSON payload using jq
 JSON_DIFF_OUTPUT_PAYLOAD=$(jq -n \
-                  --arg model $DEFAULT_MODEL \
-                  --arg sys_content "You are a helpful system programmed to generate a commit message based on git diff output. Please provide the commit message with maximun of 4096 characteres." \
-                  --arg user_content "PREFERED_LANGUAGE=$PREFERED_LANGUAGE, Based on the following git diff output, identify and describe the changes in the PREFERED_LANGUAGE to define the commit message: $DIFF_OUTPUT" \
+                  --arg model "gpt-3.5-turbo-16k" \
+                  --arg sys_content "$PREF_SYSTEM_CONTENT The user speaks $PREF_LANGUAGE." \
+                  --arg user_content "$PREF_USER_CONTENT: $DIFF_OUTPU" \
                   '{model: $model, messages: [{role: "system", content: $sys_content}, {role: "user", content: $user_content}]}')
 
 # Make an API call to ChatGPT for analysis
-API_FROM_DIFF_OUTPUT_RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}\n" -H "Authorization: Bearer $API_KEY" \
+API_FROM_DIFF_OUTPUT_RESPONSE=$(curl -s -H "Authorization: Bearer $API_KEY" \
     -H "Content-Type: application/json" \
     -d "$JSON_DIFF_OUTPUT_PAYLOAD" \
     "https://api.openai.com/v1/chat/completions")
 
+# Check if curl command was successful
+if [ $? -ne 0 ]; then
+    echo "Error: API call to ChatGPT failed."
+    echo "Reason: The curl command did not execute successfully."
+    echo "Developer Fix: If you believe this is a bug, please contribute by opening an issue on the GitHub repository."
+    echo "Support: If you have a support contract, please contact support with error code 8."
+    echo "Community Help: For community assistance, post your issue on Stack Overflow with the tag 'auto-commit-msg'."
+    exit 12
+fi
+
 # Extract the commit message from the API response
-DESCRIPTON_4096_SUGGESTION=$(echo "$API_FROM_DIFF_OUTPUT_RESPONSE" | jq -r '.choices[0].message.content' 2>/dev/null)
+DESCRIPTON_4096_SUGGESTION=$(echo "$API_FROM_DIFF_OUTPUT_RESPONSE" | jq -r '.choices[0].message.content')
+
+# Check if jq command was successful
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to parse API response."
+    echo "Reason: The jq command did not execute successfully."
+    echo "Developer Fix: If you believe this is a bug, please contribute by opening an issue on the GitHub repository."
+    echo "Support: If you have a support contract, please contact support with error code 9."
+    echo "Community Help: For community assistance, post your issue on Stack Overflow with the tag 'auto-commit-msg'."
+    exit 13
+fi
 
 # Update the commit message
-echo $DESCRIPTON_4096_SUGGESTION > $COMMIT_MSG_FILE
+echo $DESCRIPTON_4096_SUGGESTION > $1
 
 exit 0
