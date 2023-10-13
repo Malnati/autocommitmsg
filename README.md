@@ -9,6 +9,11 @@ This repository contains a Bash script designed to analyze the content of a Git 
 - Analyzes staged changes for commit
 - Generates a semantic versioning commit message
 
+## IN DEVELOPMENT
+- Markdown files review
+- Testing
+- Debian packing
+
 ## Dependencies
 - curl
 - jq
