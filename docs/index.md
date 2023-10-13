@@ -1,17 +1,39 @@
-# Welcome to MkDocs
+# Auto Commit Msg
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+## Description
+This repository contains a Bash script designed to analyze the content of a Git commit and automatically suggest a semantic versioning message. It utilizes OpenAI's GPT-3.5 Turbo engine to generate the commit message based on the changes staged for commit.
 
-## Commands
+## Features
+- Checks for required utilities (curl, jq)
+- Verifies API Key
+- Analyzes staged changes for commit
+- Generates a semantic versioning commit message
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## Dependencies
+- curl
+- jq
 
-## Project layout
+## Installation and Setup
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+For instructions on how to generate the required API key and set up this script as a Git hook, please refer to the [INSTALL.md](INSTALL.md) file.
+
+## Usage
+```bash
+./auto-commit-msg/usr/local/bin/auto-commit-msg [COMMIT_MSG_FILE]
+```
+
+## Author
+Ricardo Malnati
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+---
+
+## Hashtags
+- #Git
+- #CommitMessage
+- #SemanticVersioning
+- #OpenAI
+- #GPT-3.5
+- #BashScript

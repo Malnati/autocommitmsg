@@ -4,23 +4,23 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
         
         
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <title>My Docs</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>TODO - My Docs</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script> 
     </head>
 
-    <body class="homepage">
+    <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href=".">My Docs</a>
+                <a class="navbar-brand" href="..">My Docs</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -30,23 +30,23 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Auto Commit Msg</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../CONTRIBUTING/" class="nav-link">Contributing to auto-commit-msg</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../INSTALL/" class="nav-link">Installation Guide for Auto Commit Msg</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../SUPPORT/" class="nav-link">Support for auto-commit-msg</a>
+                            </li>
                             <li class="navitem active">
-                                <a href="." class="nav-link">Auto Commit Msg</a>
+                                <a href="./" class="nav-link">TODO</a>
                             </li>
                             <li class="navitem">
-                                <a href="CONTRIBUTING/" class="nav-link">Contributing to auto-commit-msg</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="INSTALL/" class="nav-link">Installation Guide for Auto Commit Msg</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="SUPPORT/" class="nav-link">Support for auto-commit-msg</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="TODO/" class="nav-link">TODO</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="USAGE/" class="nav-link">USAGE</a>
+                                <a href="../USAGE/" class="nav-link">USAGE</a>
                             </li>
                         </ul>
 
@@ -57,12 +57,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" class="nav-link disabled">
+                                <a rel="prev" href="../SUPPORT/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="CONTRIBUTING/" class="nav-link">
+                                <a rel="next" href="../USAGE/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -84,123 +84,58 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#auto-commit-msg" class="nav-link">Auto Commit Msg</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#description" class="nav-link">Description</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#features" class="nav-link">Features</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#dependencies" class="nav-link">Dependencies</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#installation-and-setup" class="nav-link">Installation and Setup</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#usage" class="nav-link">Usage</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#author" class="nav-link">Author</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#license" class="nav-link">License</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#hashtags" class="nav-link">Hashtags</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
             
-            <li class="nav-item" data-level="1"><a href="#git" class="nav-link">Git</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             
-            <li class="nav-item" data-level="1"><a href="#commitmessage" class="nav-link">CommitMessage</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             
-            <li class="nav-item" data-level="1"><a href="#semanticversioning" class="nav-link">SemanticVersioning</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             
-            <li class="nav-item" data-level="1"><a href="#openai" class="nav-link">OpenAI</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             
-            <li class="nav-item" data-level="1"><a href="#gpt-35" class="nav-link">GPT-3.5</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             
-            <li class="nav-item" data-level="1"><a href="#bashscript" class="nav-link">BashScript</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="auto-commit-msg">Auto Commit Msg</h1>
-<h2 id="description">Description</h2>
-<p>This repository contains a Bash script designed to analyze the content of a Git commit and automatically suggest a semantic versioning message. It utilizes OpenAI's GPT-3.5 Turbo engine to generate the commit message based on the changes staged for commit.</p>
-<h2 id="features">Features</h2>
-<ul>
-<li>Checks for required utilities (curl, jq)</li>
-<li>Verifies API Key</li>
-<li>Analyzes staged changes for commit</li>
-<li>Generates a semantic versioning commit message</li>
-</ul>
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>curl</li>
-<li>jq</li>
-</ul>
-<h2 id="installation-and-setup">Installation and Setup</h2>
-<p>For instructions on how to generate the required API key and set up this script as a Git hook, please refer to the <a href="INSTALL/">INSTALL.md</a> file.</p>
-<h2 id="usage">Usage</h2>
-<pre><code class="language-bash">./auto-commit-msg/usr/local/bin/auto-commit-msg [COMMIT_MSG_FILE]
-</code></pre>
-<h2 id="author">Author</h2>
-<p>Ricardo Malnati</p>
-<h2 id="license">License</h2>
-<p>This project is licensed under the MIT License - see the <a href="LICENSE.md">LICENSE.md</a> file for details.</p>
-<hr />
-<h2 id="hashtags">Hashtags</h2>
-<ul>
-<li>
-<h1 id="git">Git</h1>
-</li>
-<li>
-<h1 id="commitmessage">CommitMessage</h1>
-</li>
-<li>
-<h1 id="semanticversioning">SemanticVersioning</h1>
-</li>
-<li>
-<h1 id="openai">OpenAI</h1>
-</li>
-<li>
-<h1 id="gpt-35">GPT-3.5</h1>
-</li>
-<li>
-<h1 id="bashscript">BashScript</h1>
-</li>
-</ul></div>
+<h3 id="automated-tests">Automated Tests</h3>
+<ol>
+<li><strong>Tool</strong>: Use a testing framework like <code>Bats</code> for Bash.</li>
+<li><strong>Implementation</strong>: Write unit tests for each function in your script.</li>
+<li><strong>CI/CD</strong>: Integrate with a CI/CD service like GitHub Actions to run tests automatically on each commit or pull request.</li>
+</ol>
+<h3 id="user-documentation">User Documentation</h3>
+<ol>
+<li><strong>Tool</strong>: Use a static site generator like <code>MkDocs</code>.</li>
+<li><strong>Implementation</strong>: Create detailed guides, FAQs, and API documentation.</li>
+<li><strong>Hosting</strong>: Host the documentation on GitHub Pages or a similar service.</li>
+</ol>
+<h3 id="versioning">Versioning</h3>
+<ol>
+<li><strong>Tool</strong>: Use <code>git tags</code> for versioning.</li>
+<li><strong>Implementation</strong>: Follow Semantic Versioning (<code>SemVer</code>) standards.</li>
+<li><strong>Release</strong>: Automate the release process using GitHub Actions.</li>
+</ol>
+<h3 id="logging-and-auditing">Logging and Auditing</h3>
+<ol>
+<li><strong>Tool</strong>: Use <code>syslog</code> for Linux or <code>logger</code> for macOS.</li>
+<li><strong>Implementation</strong>: Log important events and errors in the script.</li>
+<li><strong>Audit</strong>: Periodically review logs for any anomalies or issues.</li>
+</ol>
+<h3 id="backup-and-rollback">Backup and Rollback</h3>
+<ol>
+<li><strong>Implementation</strong>: Before making changes, backup relevant files.</li>
+<li><strong>Rollback</strong>: Implement a function to revert changes in case of failure.</li>
+</ol>
+<h3 id="multi-language-support">Multi-Language Support</h3>
+<ol>
+<li><strong>Tool</strong>: Use <code>gettext</code> or a similar localization tool.</li>
+<li><strong>Implementation</strong>: Externalize all user-facing strings into language files.</li>
+<li><strong>Language Selection</strong>: Allow users to select their preferred language for the script's interface.</li>
+</ol>
+<h3 id="security-measures">Security Measures</h3>
+<ol>
+<li><strong>Rate-Limiting</strong>: Implement a rate-limiting mechanism for API calls.</li>
+<li><strong>IP Whitelisting</strong>: Allow the script to only make API calls from certain IP addresses.</li>
+<li><strong>Encryption</strong>: Use stronger encryption algorithms for sensitive data.</li>
+</ol></div>
             </div>
         </div>
 
@@ -208,14 +143,14 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="js/jquery-3.6.0.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
         <script>
-            var base_url = ".",
+            var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js"></script>
-        <script src="search/main.js"></script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -280,8 +215,3 @@
 
     </body>
 </html>
-
-<!--
-MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 13:37:00.738750+00:00
--->
