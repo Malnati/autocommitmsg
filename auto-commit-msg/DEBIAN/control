@@ -3,6 +3,7 @@ Version: 1.0.0
 Section: utils
 Priority: optional
 Architecture: all
-Depends: openssl, curl, jq
+Depends: openssl (>= 1.1.1), curl (>= 7.68), jq (>= 1.6)
 Maintainer: Ricardo Malnati ricardomalnati@gmail.com
 Description: Auto Commit Msg is a utility for generating semantic commit messages.
+License: MIT

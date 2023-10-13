@@ -1,0 +1,6 @@
+#!/bin/bash
+# DEBIAN/postinst
+
+echo "Installation completed."
+echo "To set up the auto-commit-msg hook in a Git project, run:"
+echo "/usr/local/bin/auto-commit-msg -i /path/to/your/git/project"
