@@ -1,0 +1,14 @@
+site_name: auto-commit-msg
+nav:
+  - Home: README.md
+  - Installation: INSTALL.md
+  - Usage: USAGE.md
+  - Contributing: CONTRIBUTING.md
+  - Support: SUPPORT.md
+  - To-Do: TODO.md
+  - License: LICENSE
+  - Git hook: 
+    - usr
+     - local
+      - bin
+          commit-msg

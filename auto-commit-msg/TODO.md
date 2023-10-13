@@ -16,11 +16,6 @@
 2. **Implementation**: Follow Semantic Versioning (`SemVer`) standards.
 3. **Release**: Automate the release process using GitHub Actions.
 
-### Community and Support
-
-1. **Implementation**: Add a `CONTRIBUTING.md` and `SUPPORT.md` to your repository.
-2. **Forums**: Create a discussion board or link to a Stack Overflow tag specific to your project.
-
 ### Logging and Auditing
 
 1. **Tool**: Use `syslog` for Linux or `logger` for macOS.
