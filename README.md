@@ -1,44 +1,42 @@
-# Auto Commit Msg
+# Auto-Commit-Msg: Your Intelligent Commit Message Assistant
 
 ## Description
 This repository contains a Bash script designed to analyze the content of a Git commit and automatically suggest a semantic versioning message. It utilizes OpenAI's GPT-3.5 Turbo engine to generate the commit message based on the changes staged for commit.
 
+## Overview
+
+Auto-Commit-Msg is a cutting-edge utility designed to streamline your Git commit process. It intelligently analyzes your commit content and suggests semantic versioning messages, making your version control more efficient and meaningful. 
+
 ## Features
-- Checks for required utilities (curl, jq)
-- Verifies API Key
-- Analyzes staged changes for commit
-- Generates a semantic versioning commit message
 
-## IN DEVELOPMENT
-- Markdown files review
-- Testing
-- Debian packing
+### IDE Agnostic
 
-## Dependencies
-- curl
-- jq
+One of the standout features of Auto-Commit-Msg is its IDE-agnostic nature. This means you can use it across any Integrated Development Environment (IDE), be it Visual Studio Code, IntelliJ, Eclipse, or any other. 
 
-## Installation and Setup
+#### Why is IDE Agnostic Important?
 
-For instructions on how to generate the required API key and set up this script as a Git hook, please refer to the [INSTALL.md](INSTALL.md) file.
+Being IDE agnostic removes the limitations tied to a specific development environment. It offers you the freedom to switch between IDEs without worrying about compatibility issues, thus making it a versatile tool that adapts to your workflow rather than forcing you to adapt to it.
 
-## Usage
-```bash
-./auto-commit-msg/usr/local/bin/auto-commit-msg [COMMIT_MSG_FILE]
-```
+### Project Accelerator
 
-## Author
-Ricardo Malnati
+Auto-Commit-Msg serves as an accelerator for your projects. By automating the often tedious task of crafting meaningful commit messages, it allows you to focus more on coding and less on administrative tasks. This speeds up the development process, helping you meet deadlines and achieve milestones more efficiently.
 
-## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+### User and Project-Level Preferences
 
----
+Tailor the utility to meet your specific needs. Auto-Commit-Msg supports both user and project-level preferences, allowing for a highly customized experience.
 
-## Hashtags
-- #Git
-- #CommitMessage
-- #SemanticVersioning
-- #OpenAI
-- #GPT-3.5
-- #BashScript
+### Secure API Key Storage
+
+Your OpenAI API key is encrypted and securely stored, ensuring that your sensitive data is kept safe.
+
+### Multi-Language Support for OpenAI API
+
+Set your preferred language for interacting with the OpenAI API, making it a globally accessible tool.
+
+## Getting Started
+
+For installation instructions and more, please refer to our [INSTALL.md](#) guide.
+
+## Support and Community
+
+For support and how to contribute to the project, please refer to our [SUPPORT.md](#) guide.
