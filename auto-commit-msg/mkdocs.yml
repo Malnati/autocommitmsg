@@ -2,13 +2,10 @@ site_name: auto-commit-msg
 nav:
   - Home: README.md
   - Installation: INSTALL.md
-  - Usage: USAGE.md
-  - Contributing: CONTRIBUTING.md
-  - Support: SUPPORT.md
-  - To-Do: TODO.md
+  - Usage: auto-commit-msg/USAGE.md
+  - Contributing: auto-commit-msg/CONTRIBUTING.md
+  - Support: auto-commit-msg/SUPPORT.md
+  - To-Do: auto-commit-msg/TODO.md
   - License: LICENSE
-  - Git hook: 
-    - usr
-     - local
-      - bin
-          commit-msg
+  - Git hook:
+    - commit-msg: auto-commit-msg/usr/local/bin/commit-msg
