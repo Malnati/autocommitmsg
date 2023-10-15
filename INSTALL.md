@@ -56,7 +56,7 @@ For more details on `.gitignore`, you can refer to the [official documentation](
 1. **Navigate to Your Repository**: Open your terminal and navigate to your local Git repository.
 2. **Copy the Script**: Move the `auto_commit_msg` script to the `hooks` directory and rename it to `commit-msg`.
     ```bash
-    cp ./auto-commit-msg/usr/local/bin/auto-commit-msg .git/hooks/commit-msg
+    cp ./autocommitmsg/usr/local/bin/auto-commit-msg .git/hooks/commit-msg
     ```
 3. **Make it Executable**: Change the script permissions to make it executable.
     ```bash

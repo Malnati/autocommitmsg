@@ -16,7 +16,7 @@ If you have a support contract, please contact our support team at `support@exam
 
 ## Reporting Issues
 
-Please report bugs and issues on our [GitHub Issues](https://github.com/your-username/auto-commit-msg/issues) page.
+Please report bugs and issues on our [GitHub Issues](https://github.com/your-username/autocommitmsg/issues) page.
 
 For security issues, please email `security@example.com`.
 
