@@ -43,7 +43,7 @@
 6. **Generate Formula Template**
    - **Reason**: To create a new formula file that you'll edit to fit your software.
    ```bash
-   brew create https://github.com/Malnati/auto-commit-msg/archive/v0.1-alpha.tar.gz
+   brew create https://github.com/Malnati/autocommitmsg/archive/v0.1-alpha.tar.gz
    ```
 
 7. **Tap into Homebrew Core**

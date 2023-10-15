@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script: auto-commit-msg/usr/local/bin/auto-commit-msg
+# Script: autocommitmsg/usr/local/bin/auto-commit-msg
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-10
 # Description: Configures the auto-commit-msg utility to analyze commit content and suggest a 
@@ -109,7 +109,7 @@ install_or_update_hook() {
     fi
 
     mkdir -p /etc/autocommitmsg
-    cp auto-commit-msg/usr/local/bin/commit-msg /etc/autocommitmsg
+    cp autocommitmsg/usr/local/bin/commit-msg /etc/autocommitmsg
     chmod +x /etc/autocommitmsg/commit-msg
     echo "/etc/autocommitmsg updated!"
 

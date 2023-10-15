@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script: auto-commit-msg/etc/commit-msg
+# Script: autocommitmsg/etc/commit-msg
 # Author: Ricardo Malnati
 # Creation Date: 2023-10-10
 # Description: Analyzes the commit content and suggests a semantic versioning message. Supports user 
