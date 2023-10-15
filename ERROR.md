@@ -1,4 +1,4 @@
-### Enhanced Error Message Requirements for `auto-commit-msg` Project
+### Enhanced Error Message Requirements for the project
 
 Below are the enhanced requirements for error messages in this project.
 
@@ -14,7 +14,7 @@ Below are the enhanced requirements for error messages in this project.
 
 1. **Reason for the Issue**
    - The message should clearly state why the error occurred, including any missing tasks from the user's side.
-   - **Example**: "Error: Configuration file `~/.autocommitmsgrc` not found. Reason: The script requires this file for sourcing variables."
+   - **Example**: "Error: Configuration file `~/.my-conf-file-rc` not found. Reason: The script requires this file for sourcing variables."
 
 2. **Developer Guidance**
    - If the issue is not due to a missing user task, the message should guide developers on how to contribute to fixing the issue.
